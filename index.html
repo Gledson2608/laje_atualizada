@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mega Laje</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Mega Laje</h1>
+
+    <form id="slabForm">
+      <label for="slabType">Tipo de Laje</label>
+      <select id="slabType" required>
+        <option value="ceramic">Lajota</option>
+        <option value="styrofoam">Isopor</option>
+      </select>
+
+      <label for="length">Comprimento (m)</label>
+      <input type="number" id="length" min="1" max="6" step="0.01" required>
+
+      <label for="width">Largura (m)</label>
+      <input type="number" id="width" min="1" max="6" step="0.01" required>
+
+      <label for="beamDirection">Direção da Viga</label>
+      <select id="beamDirection" required>
+        <option value="length">Comprimento</option>
+        <option value="width">Largura</option>
+      </select>
+
+      <button type="submit" class="button">Calcular</button>
+    </form>
+
+    <div id="result" class="result" style="display: none;">
+      <p><strong>Vigas necessárias:</strong> <span id="beams"></span> vigas de <span id="beamSize"></span>m</p>
+      <p><strong>Metragem quadrada total:</strong> <span id="squareMeters"></span> m²</p>
+    </div>
+  </div>
+
+  <script src="calcular.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
