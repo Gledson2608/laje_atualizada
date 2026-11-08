@@ -9,6 +9,20 @@ document.addEventListener("DOMContentLoaded", function() {
     const canvas = document.getElementById("slabCanvas");
     const ctx = canvas.getContext("2d");
     
+    const btnMemory = document.getElementById("btnMemory");
+    const memoryPanel = document.getElementById("memoryPanel");
+    const memoryContent = document.getElementById("memoryContent");
+    
+    btnMemory.addEventListener("click", function() {
+        if (memoryPanel.style.display === "none") {
+            memoryPanel.style.display = "block";
+            btnMemory.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Ocultar Memória de Cálculo';
+        } else {
+            memoryPanel.style.display = "none";
+            btnMemory.innerHTML = '<i class="fa-solid fa-square-root-variable"></i> Ver Memória de Cálculo';
+        }
+    });
+    
     form.addEventListener("submit", function (event) {
         event.preventDefault();
       
@@ -16,16 +30,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const length = parseFloat(document.getElementById("length").value);
         const width = parseFloat(document.getElementById("width").value);
         const beamDirection = document.getElementById("beamDirection").value;
-        const slabThickness = parseFloat(document.getElementById("slabThickness").value);
       
-        const result = calcularLaje(slabType, length, width, beamDirection, slabThickness);
+        const result = calcularLaje(slabType, length, width, beamDirection);
       
-        // Atualiza os textos (Removido o concreto)
         document.getElementById("beams").textContent = result.beams;
         document.getElementById("beamSize").textContent = result.beamSize.toFixed(2);
         document.getElementById("squareMeters").textContent = result.squareMeters.toFixed(2);
         
-        // Lógica do Alerta de Vão Livre
         const maiorVao = Math.max(length, width);
         if (maiorVao > 5) {
             warningText.innerHTML = `<b>Atenção:</b> O vão de ${maiorVao.toFixed(2)}m é considerado grande. Vãos acima de 5m podem exigir vigas duplas ou uma viga de sustentação (apoio) no meio para evitar flechas (curvaturas) na laje.`;
@@ -34,7 +45,30 @@ document.addEventListener("DOMContentLoaded", function() {
             alertWarning.style.display = "none";
         }
 
-        // Chama o desenho
+        const tipoTexto = slabType === "ceramic" ? "Lajota (0,38m)" : "Isopor (0,42m)";
+        const dirTexto = beamDirection === "length" ? "Comprimento" : "Largura";
+
+        memoryContent.innerHTML = `
+            <p><strong>1. Ajuste de medidas (múltiplos de 20cm):</strong><br>
+            Comprimento original ${length.toFixed(2)}m → Ajustado para <span class="highlight-math">${result.adjustedLength.toFixed(2)}m</span>.<br>
+            Largura original ${width.toFixed(2)}m → Ajustada para <span class="highlight-math">${result.adjustedWidth.toFixed(2)}m</span>.</p>
+            
+            <p><strong>2. Definição do vão:</strong><br>
+            Como a direção da viga é no <strong>${dirTexto}</strong>, usamos o lado oposto de <span class="highlight-math">${result.opposite.toFixed(2)}m</span> para o cálculo.</p>
+
+            <p><strong>3. Número de Vigas:</strong><br>
+            Divisor do tipo ${tipoTexto}: <span class="highlight-math">${result.divisor}m</span>.<br>
+            Conta: ${result.opposite.toFixed(2)} / ${result.divisor} = ${(result.opposite / result.divisor).toFixed(2)}.<br>
+            Arredondando para cima: <span class="highlight-math">${result.beams} vigas</span>.</p>
+
+            <p><strong>4. Área Real (considerando as vigas):</strong><br>
+            As ${result.beams} vigas cobrem uma largura real de: ${result.beams} x ${result.divisor} = <span class="highlight-math">${result.realCoverage.toFixed(2)}m</span>.<br>
+            Área final: ${result.realCoverage.toFixed(2)}m x ${result.beamSize.toFixed(2)}m = <span class="highlight-math">${result.squareMeters.toFixed(2)}m²</span>.</p>
+        `;
+
+        memoryPanel.style.display = "none";
+        btnMemory.innerHTML = '<i class="fa-solid fa-square-root-variable"></i> Ver Memória de Cálculo';
+
         desenharLaje(length, width, beamDirection, result.beams);
       
         emptyState.style.display = "none";
@@ -45,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function() {
         resultDiv.style.animation = null; 
     });
 
-    // FUNÇÃO CORRIGIDA: Desenha a laje no Canvas
     function desenharLaje(length, width, beamDirection, numBeams) {
         const canvasWidth = 350;
         const canvasHeight = 270; 
@@ -58,27 +91,21 @@ document.addEventListener("DOMContentLoaded", function() {
         const drawWidth = canvasWidth - (padding * 2);
         const drawHeight = canvasHeight - (padding * 2) - 20;
 
-        // Fundo da laje
         ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
         ctx.fillRect(padding, padding, drawWidth, drawHeight);
 
-        // 1. DESENHAR AS VIGAS (Laranja)
         ctx.strokeStyle = "#ff5722"; 
         ctx.lineWidth = 2; 
         ctx.beginPath();
 
-        // O segredo está aqui: subtrair 1 do numBeams para achar os "espaços" reais
-        // Ex: 8 vigas = 7 espaços. Assim a primeira linha é na borda (0) e a última na borda final.
         const numEspacos = numBeams - 1;
         
         for (let i = 0; i <= numEspacos; i++) {
             if (beamDirection === "length") {
-                // Linhas verticais
                 const x = padding + (i * (drawWidth / numEspacos));
                 ctx.moveTo(x, padding);
                 ctx.lineTo(x, padding + drawHeight);
             } else {
-                // Linhas horizontais
                 const y = padding + (i * (drawHeight / numEspacos));
                 ctx.moveTo(padding, y);
                 ctx.lineTo(padding + drawWidth, y);
@@ -86,27 +113,22 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         ctx.stroke();
 
-        // 2. CONTORNO GERAL (Cinza)
         ctx.strokeStyle = "#94a3b8"; 
         ctx.lineWidth = 1;
         ctx.strokeRect(padding, padding, drawWidth, drawHeight);
 
-        // 3. TEXTOS DE MEDIDA
         ctx.fillStyle = "#94a3b8";
         ctx.font = "12px Inter, sans-serif";
         ctx.textAlign = "center";
         
-        // Medida do topo (Largura)
         ctx.fillText(`${width.toFixed(2)}m`, canvasWidth / 2, padding - 10);
         
-        // Medida lateral (Comprimento)
         ctx.save();
         ctx.translate(padding - 10, (padding + drawHeight) / 2);
         ctx.rotate(-Math.PI / 2);
         ctx.fillText(`${length.toFixed(2)}m`, 0, 0);
         ctx.restore();
 
-        // 4. LEGENDA
         ctx.fillStyle = "#94a3b8";
         ctx.font = "11px Inter, sans-serif";
         ctx.textAlign = "center";

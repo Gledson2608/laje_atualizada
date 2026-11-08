@@ -15,7 +15,7 @@
     --text-main: #f0f0f0;
     --text-muted: #94a3b8;
     --input-bg: rgba(0, 0, 0, 0.2);
-    --warning-color: #f59e0b; /* Cor amarela/laranja de alerta */
+    --warning-color: #f59e0b;
 }
 
 body {
@@ -143,7 +143,7 @@ input:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.15);
 }
 
-/* Botão */
+/* Botão Principal */
 .btn-calculate {
     width: 100%;
     background: var(--primary);
@@ -202,7 +202,7 @@ input:focus, select:focus {
     line-height: 1.5;
 }
 
-/* NOVO: Aviso de Vão Livre */
+/* Aviso de Vão Livre */
 .warning-alert {
     background: rgba(245, 158, 11, 0.1);
     border: 1px solid rgba(245, 158, 11, 0.3);
@@ -228,7 +228,7 @@ input:focus, select:focus {
     line-height: 1.4;
 }
 
-/* NOVO: Desenho da Laje */
+/* Desenho da Laje */
 .drawing-container {
     background: #121724;
     border: 1px solid var(--border-color);
@@ -305,7 +305,7 @@ input:focus, select:focus {
     color: var(--text-muted);
 }
 
-/* Destaque */
+/* Destaque da Área */
 .res-item.highlight {
     background: rgba(255, 87, 34, 0.05);
     margin: 0 -20px;
@@ -328,7 +328,7 @@ input:focus, select:focus {
     color: var(--primary);
 }
 
-/* Alerta */
+/* Alerta Informativo */
 .info-alert {
     margin-top: 20px;
     display: flex;
@@ -345,6 +345,68 @@ input:focus, select:focus {
 .info-alert i {
     color: #3b82f6;
     margin-top: 2px;
+}
+
+/* Memória de Cálculo */
+.btn-memory {
+    width: 100%;
+    background: transparent;
+    border: 1px dashed var(--text-muted);
+    color: var(--text-muted);
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-memory:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(255, 87, 34, 0.05);
+}
+
+.memory-panel {
+    margin-top: 15px;
+    background: #0f131c;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    animation: slideDown 0.4s ease;
+}
+
+.memory-panel h3 {
+    font-size: 1rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.memory-content p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.memory-content strong {
+    color: var(--text-main);
+}
+
+.memory-content .highlight-math {
+    color: var(--primary);
+    font-family: monospace;
+    font-size: 0.95rem;
+    background: rgba(255, 87, 34, 0.1);
+    padding: 2px 5px;
+    border-radius: 4px;
 }
 
 /* Animações */

@@ -1,12 +1,10 @@
 // calcular.js - Contém apenas a lógica matemática do cálculo
 
-// Função para ajustar para múltiplos de 0,20 metros
 function ajustarViga(valor) {
     return Math.ceil(valor / 0.20) * 0.20; 
 }
   
-// Função principal de cálculo
-function calcularLaje(slabType, length, width, beamDirection, slabThickness) {
+function calcularLaje(slabType, length, width, beamDirection) {
     const adjustedLength = ajustarViga(length);
     const adjustedWidth = ajustarViga(width);
     const opposite = beamDirection === "length" ? adjustedWidth : adjustedLength;
@@ -14,8 +12,18 @@ function calcularLaje(slabType, length, width, beamDirection, slabThickness) {
   
     const beams = Math.ceil(opposite / divisor);
     const beamSize = beamDirection === "length" ? adjustedLength : adjustedWidth;
-    const squareMeters = parseFloat((beams * divisor * beamSize).toFixed(2));
+    
+    const realCoverage = beams * divisor; 
+    const squareMeters = parseFloat((realCoverage * beamSize).toFixed(2));
   
-    // Retorna apenas o que precisamos agora
-    return { beams, beamSize, squareMeters };
+    return { 
+        beams, 
+        beamSize, 
+        squareMeters, 
+        adjustedLength, 
+        adjustedWidth, 
+        realCoverage, 
+        divisor,
+        opposite 
+    };
 }

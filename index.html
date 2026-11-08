@@ -47,28 +47,13 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="input-group">
-            <label for="beamDirection"><i class="fa-solid fa-arrows-left-right"></i> Direção da Viga</label>
-            <div class="input-wrapper">
-              <select id="beamDirection" required>
-                <option value="length">Comprimento</option>
-                <option value="width">Largura</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Mantive a espessura caso você queira usar para outra coisa no futuro, mas ela não calcula mais concreto -->
-          <div class="input-group">
-            <label for="slabThickness"><i class="fa-solid fa-layer-group"></i> Espessura (cm)</label>
-            <div class="input-wrapper">
-              <select id="slabThickness" required>
-                <option value="8">8 cm</option>
-                <option value="10">10 cm</option>
-                <option value="12">12 cm</option>
-                <option value="15">15 cm</option>
-              </select>
-            </div>
+        <div class="input-group">
+          <label for="beamDirection"><i class="fa-solid fa-arrows-left-right"></i> Direção da Viga</label>
+          <div class="input-wrapper">
+            <select id="beamDirection" required>
+              <option value="length">Comprimento</option>
+              <option value="width">Largura</option>
+            </select>
           </div>
         </div>
 
@@ -88,7 +73,6 @@
 
       <div id="result" class="result-content" style="display: none;">
         
-        <!-- Aviso de Vão Livre -->
         <div id="alertWarning" class="warning-alert" style="display: none;">
           <i class="fa-solid fa-triangle-exclamation"></i>
           <p id="warningText"></p>
@@ -96,7 +80,6 @@
 
         <h2><i class="fa-solid fa-clipboard-check"></i> Resultado</h2>
         
-        <!-- Desenho Esquemático da Laje -->
         <div class="drawing-container">
           <canvas id="slabCanvas"></canvas>
         </div>
@@ -110,17 +93,21 @@
             <span class="res-label">Tamanho da viga</span>
             <span class="res-value"><span id="beamSize">0.00</span> <small>m</small></span>
           </div>
-          <!-- Área total é o último item agora, então ganha o destaque laranja -->
           <div class="res-item highlight">
             <span class="res-label">Área total</span>
             <span class="res-value"><span id="squareMeters">0.00</span> <small>m²</small></span>
           </div>
         </div>
 
-        <div class="info-alert">
-          <i class="fa-solid fa-circle-info"></i>
-          <p>Cálculo baseado no ajuste de múltiplos de 20cm para as vigas.</p>
+        <button id="btnMemory" class="btn-memory">
+          <i class="fa-solid fa-square-root-variable"></i> Ver Memória de Cálculo
+        </button>
+
+        <div id="memoryPanel" class="memory-panel" style="display: none;">
+          <h3>Passo a Passo (Prova Real)</h3>
+          <div id="memoryContent" class="memory-content"></div>
         </div>
+
       </div>
 
     </section>
