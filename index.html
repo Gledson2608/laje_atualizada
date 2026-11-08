@@ -3,40 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mega Laje</title>
+  <title>Mega Laje | Calculadora Profissional</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome para Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Mega Laje</h1>
+  
+  <main class="app-container">
+    
+    <!-- Lado Esquerdo: Formulário -->
+    <section class="glass-panel form-section">
+      <div class="header">
+        <div class="logo-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <h1>Mega Laje</h1>
+        <p>Dimensionamento rápido e preciso</p>
+      </div>
 
-    <form id="slabForm">
-      <label for="slabType">Tipo de Laje</label>
-      <select id="slabType" required>
-        <option value="ceramic">Lajota</option>
-        <option value="styrofoam">Isopor</option>
-      </select>
+      <form id="slabForm" autocomplete="off">
+        
+        <div class="input-group">
+          <label for="slabType"><i class="fa-solid fa-cubes"></i> Tipo de Laje</label>
+          <div class="input-wrapper">
+            <select id="slabType" required>
+              <option value="ceramic">Lajota</option>
+              <option value="styrofoam">Isopor</option>
+            </select>
+          </div>
+        </div>
 
-      <label for="length">Comprimento (m)</label>
-      <input type="number" id="length" min="1" max="6" step="0.01" required>
+        <div class="row">
+          <div class="input-group">
+            <label for="length"><i class="fa-solid fa-ruler-horizontal"></i> Comprimento (m)</label>
+            <div class="input-wrapper">
+              <input type="number" id="length" min="1" max="20" step="0.01" placeholder="Ex: 5.00" required>
+            </div>
+          </div>
 
-      <label for="width">Largura (m)</label>
-      <input type="number" id="width" min="1" max="6" step="0.01" required>
+          <div class="input-group">
+            <label for="width"><i class="fa-solid fa-ruler-vertical"></i> Largura (m)</label>
+            <div class="input-wrapper">
+              <input type="number" id="width" min="1" max="20" step="0.01" placeholder="Ex: 3.20" required>
+            </div>
+          </div>
+        </div>
 
-      <label for="beamDirection">Direção da Viga</label>
-      <select id="beamDirection" required>
-        <option value="length">Comprimento</option>
-        <option value="width">Largura</option>
-      </select>
+        <div class="input-group">
+          <label for="beamDirection"><i class="fa-solid fa-arrows-left-right"></i> Direção da Viga</label>
+          <div class="input-wrapper">
+            <select id="beamDirection" required>
+              <option value="length">Ao longo do Comprimento</option>
+              <option value="width">Ao longo da Largura</option>
+            </select>
+          </div>
+        </div>
 
-      <button type="submit" class="button">Calcular</button>
-    </form>
+        <button type="submit" class="btn-calculate">
+          Calcular Laje <i class="fa-solid fa-calculator"></i>
+        </button>
+      </form>
+    </section>
 
-    <div id="result" class="result" style="display: none;">
-      <p><strong>Vigas necessárias:</strong> <span id="beams"></span> vigas de <span id="beamSize"></span>m</p>
-      <p><strong>Metragem quadrada total:</strong> <span id="squareMeters"></span> m²</p>
-    </div>
-  </div>
+    <!-- Lado Direito: Resultado -->
+    <section class="glass-panel result-section" id="resultSection">
+      
+      <div class="empty-state" id="emptyState">
+        <i class="fa-solid fa-chart-simple empty-icon"></i>
+        <p>Preencha os dados ao lado para visualizar o dimensionamento.</p>
+      </div>
+
+      <div id="result" class="result-content" style="display: none;">
+        <h2><i class="fa-solid fa-clipboard-check"></i> Resultado</h2>
+        
+        <div class="result-card">
+          <div class="res-item">
+            <span class="res-label">Vigas necessárias</span>
+            <span class="res-value"><span id="beams">0</span> <small>un</small></span>
+          </div>
+          <div class="res-item">
+            <span class="res-label">Tamanho da viga</span>
+            <span class="res-value"><span id="beamSize">0.00</span> <small>m</small></span>
+          </div>
+          <div class="res-item highlight">
+            <span class="res-label">Área total (m²)</span>
+            <span class="res-value"><span id="squareMeters">0.00</span> <small>m²</small></span>
+          </div>
+        </div>
+
+        <div class="info-alert">
+          <i class="fa-solid fa-circle-info"></i>
+          <p>Cálculo baseado no ajuste de múltiplos de 20cm para as vigas.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
 
   <script src="calcular.js"></script>
   <script src="script.js"></script>
