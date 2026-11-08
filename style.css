@@ -15,6 +15,7 @@
     --text-main: #f0f0f0;
     --text-muted: #94a3b8;
     --input-bg: rgba(0, 0, 0, 0.2);
+    --warning-color: #f59e0b; /* Cor amarela/laranja de alerta */
 }
 
 body {
@@ -53,7 +54,7 @@ body {
 /* Cabeçalho */
 .header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .logo-icon {
@@ -120,7 +121,6 @@ input, select {
     appearance: none;
 }
 
-/* Seta customizada para o Select */
 select {
     background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ff5722%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
@@ -182,7 +182,7 @@ input:focus, select:focus {
     overflow: hidden;
 }
 
-/* Estado Vazio (Antes de calcular) */
+/* Estado Vazio */
 .empty-state {
     text-align: center;
     color: var(--text-muted);
@@ -202,6 +202,50 @@ input:focus, select:focus {
     line-height: 1.5;
 }
 
+/* NOVO: Aviso de Vão Livre */
+.warning-alert {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-left: 4px solid var(--warning-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    animation: slideDown 0.5s ease;
+}
+
+.warning-alert i {
+    color: var(--warning-color);
+    font-size: 1.2rem;
+    margin-top: 2px;
+}
+
+.warning-alert p {
+    color: #fcd34d;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* NOVO: Desenho da Laje */
+.drawing-container {
+    background: #121724;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#slabCanvas {
+    max-width: 100%;
+    height: auto;
+}
+
 /* Conteúdo do Resultado */
 .result-content {
     animation: slideUp 0.5s ease forwards;
@@ -210,7 +254,7 @@ input:focus, select:focus {
 .result-content h2 {
     font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -232,7 +276,7 @@ input:focus, select:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
+    padding: 15px 0;
     border-bottom: 1px dashed var(--border-color);
 }
 
@@ -261,11 +305,11 @@ input:focus, select:focus {
     color: var(--text-muted);
 }
 
-/* Destaque para a Área Total */
+/* Destaque */
 .res-item.highlight {
     background: rgba(255, 87, 34, 0.05);
     margin: 0 -20px;
-    padding: 18px 20px;
+    padding: 15px 20px;
     border-bottom: none;
     border-radius: 0 0 16px 16px;
 }
@@ -284,7 +328,7 @@ input:focus, select:focus {
     color: var(--primary);
 }
 
-/* Alerta Informativo */
+/* Alerta */
 .info-alert {
     margin-top: 20px;
     display: flex;
@@ -314,7 +358,12 @@ input:focus, select:focus {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsividade para Celular */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
     .app-container {
         grid-template-columns: 1fr;

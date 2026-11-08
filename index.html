@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mega Laje | Calculadora Profissional</title>
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- FontAwesome para Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -23,7 +21,6 @@
       </div>
 
       <form id="slabForm" autocomplete="off">
-        
         <div class="input-group">
           <label for="slabType"><i class="fa-solid fa-cubes"></i> Tipo de Laje</label>
           <div class="input-wrapper">
@@ -50,13 +47,28 @@
           </div>
         </div>
 
-        <div class="input-group">
-          <label for="beamDirection"><i class="fa-solid fa-arrows-left-right"></i> Direção da Viga</label>
-          <div class="input-wrapper">
-            <select id="beamDirection" required>
-              <option value="length">Ao longo do Comprimento</option>
-              <option value="width">Ao longo da Largura</option>
-            </select>
+        <div class="row">
+          <div class="input-group">
+            <label for="beamDirection"><i class="fa-solid fa-arrows-left-right"></i> Direção da Viga</label>
+            <div class="input-wrapper">
+              <select id="beamDirection" required>
+                <option value="length">Comprimento</option>
+                <option value="width">Largura</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Mantive a espessura caso você queira usar para outra coisa no futuro, mas ela não calcula mais concreto -->
+          <div class="input-group">
+            <label for="slabThickness"><i class="fa-solid fa-layer-group"></i> Espessura (cm)</label>
+            <div class="input-wrapper">
+              <select id="slabThickness" required>
+                <option value="8">8 cm</option>
+                <option value="10">10 cm</option>
+                <option value="12">12 cm</option>
+                <option value="15">15 cm</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -75,8 +87,20 @@
       </div>
 
       <div id="result" class="result-content" style="display: none;">
+        
+        <!-- Aviso de Vão Livre -->
+        <div id="alertWarning" class="warning-alert" style="display: none;">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <p id="warningText"></p>
+        </div>
+
         <h2><i class="fa-solid fa-clipboard-check"></i> Resultado</h2>
         
+        <!-- Desenho Esquemático da Laje -->
+        <div class="drawing-container">
+          <canvas id="slabCanvas"></canvas>
+        </div>
+
         <div class="result-card">
           <div class="res-item">
             <span class="res-label">Vigas necessárias</span>
@@ -86,8 +110,9 @@
             <span class="res-label">Tamanho da viga</span>
             <span class="res-value"><span id="beamSize">0.00</span> <small>m</small></span>
           </div>
+          <!-- Área total é o último item agora, então ganha o destaque laranja -->
           <div class="res-item highlight">
-            <span class="res-label">Área total (m²)</span>
+            <span class="res-label">Área total</span>
             <span class="res-value"><span id="squareMeters">0.00</span> <small>m²</small></span>
           </div>
         </div>
